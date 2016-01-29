@@ -1,0 +1,62 @@
+body {
+    background-color: black;
+    overflow: hidden;
+    background-image: url("/img/bg.png");
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+canvas {
+    margin: 30px auto auto;
+    display: block;
+    cursor: crosshair;
+    background-image: url('/img/bg_sand.jpg');
+    background-repeat: no-repeat;
+    border: 1px solid;
+}
+
+#chatmsg {
+    background-color: white;
+}
+
+#chat {
+
+    background-color: white;
+}
+
+#header {
+    color: "pink";
+    text-align: center;
+    font-size: 3em;
+}
+
+#chatContainer {
+    margin: auto;
+    text-align: center;
+}
+
+/* Container for chat messages */
+#chat {
+    margin: auto;
+    width: 800px;
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid;
+}
+
+/* Single chat message */
+#chat div {
+    text-align: left;
+    padding: 2px;
+}
+
+form input[type="text"] {
+    width: 720px;
+}
+
+form input[type="submit"] {
+    width: 80px;
+}
