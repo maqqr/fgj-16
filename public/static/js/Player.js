@@ -76,19 +76,7 @@ var Player = function(startX, startY, startAngle, playerName, isEliminated,
             prevY = y,
             prevAngle = angle;
 
-        // Up key takes priority over down
-        if (keys.up) {
-            y -= delta * moveAmount;
-        } else if (keys.down) {
-            y += delta * moveAmount;
-        }
 
-        // Left key takes priority over right
-        if (keys.left) {
-            x -= delta * moveAmount;
-        } else if (keys.right) {
-            x += delta * moveAmount;
-        }
 
         // Calculate angle
         angle = calculateAngle(x, y);
