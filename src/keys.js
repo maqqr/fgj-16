@@ -15,9 +15,14 @@ export default (eventType, { keyCode }) => {
 }
 
 function updateKeyboard (state, eventType, keyCode) {
+  const dir = KEY_DIR_MAPPING[keyCode]
   const keyboard = {
     ...state.keyboard,
-    [KEY_DIR_MAPPING[keyCode]]: eventType === 'keydown'
+    [dir]: eventType === 'keydown'
+  }
+
+  if (state.keyboard[dir] !== keyboard[dir]) {
+    io.emit('playerUpdate', { playerId: state.playerId, keyboard })
   }
 
   return { ...state, keyboard }

@@ -1,4 +1,6 @@
 /* global requestAnimationFrame */
+import socketIO from 'socket.io-client'
+
 import {
   DEFAULT_LOOP_PROPS,
   MAX_FPS,
@@ -15,6 +17,13 @@ let CANVAS_CONTEXT
 
 ['keydown', 'keypress', 'keyup'].forEach(d => {
   window.addEventListener(d, e => EVENTS.push(onKey(d, e)), false)
+})
+
+const io = socketIO('http://localhost:3001')
+window.io = io
+io.on('news', function (data) {
+  console.log(data)
+  io.emit('my other event', { my: 'data' })
 })
 
 global.app = () => {
