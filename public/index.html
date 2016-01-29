@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <title>A multiplayer game built using HTML5 canvas and WebSockets</title>
+        <meta charset="utf-8">
+        <!-- <link rel="stylesheet" href="style/reset.css"> -->
+        <link rel="stylesheet" href="style/game.css">
+    </head>
+
+    <body>
+        <canvas id="gameCanvas"></canvas>
+        <div id="header" reset>
+            <a href="/help">
+            <img border="0" src="img/helppibanneri.png" alt="Apua" ></a>
+        </div>
+        <div id="chatContainer">
+            <div id="chat">
+            </div>
+            <form onsubmit="sendMessage(); return false;">
+                <input id="chatmsg" type="text"/>
+                <input type="submit" value="Send"/>
+            </form>
+        </div>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="js/requestAnimationFrame.js"></script>
+        <script src="js/Keys.js"></script>
+        <script src="js/Player.js"></script>
+        <script src="js/Ball.js"></script>
+        <script src="js/game.js"></script>
+        <script>
+            // Initialise the game
+            window.onload = function() {
+                init();
+                animate();
+            };
+        </script>
+    </body>
+</html>
