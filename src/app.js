@@ -5,12 +5,17 @@ import {
   TIME_STEP
 } from './constants'
 import draw from './draw'
+import onKey from './keys'
 import end from './end'
 import initialState from './initialState'
 import update from './update'
 
 let EVENTS = []
 let CANVAS_CONTEXT
+
+['keydown', 'keypress', 'keyup'].forEach(d => {
+  window.addEventListener(d, e => EVENTS.push(onKey(d, e)), false)
+})
 
 global.app = () => {
   CANVAS_CONTEXT = document.getElementById('canvas').getContext('2d')
@@ -45,6 +50,9 @@ function mainLoop (timestamp, props, state) {
   }
 
   framesThisSecond++
+
+  EVENTS.forEach(d => { state = d(state) })
+  EVENTS = []
 
   let numUpdateSteps = 0
   while (delta >= TIME_STEP) {
