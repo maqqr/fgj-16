@@ -77,7 +77,7 @@ function mainLoop (timestamp, props, state) {
     }
   }
 
-  draw(delta / TIME_STEP, state, CANVAS_CONTEXT)
+  draw(delta / TIME_STEP, state, CANVAS_CONTEXT, RESOURCES)
 
   state = end(fps, state)
 
