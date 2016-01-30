@@ -5,7 +5,8 @@ import {
   PLAYER_JOINED,
   PLAYER_LEFT,
   PLAYER_UPDATED_POS,
-  RESOURCE_PICKED
+  RESOURCE_PICKED,
+  TIMER_UPDATED
 } from './networkEventTypes'
 import * as handlers from './sharedEventHandlers'
 
@@ -21,9 +22,16 @@ export function onNetworkEvent (event, data) {
       return state => handlers.onPlayerUpdatedPos(state, data)
     case RESOURCE_PICKED:
       return state => handlers.onResourcePicked(state, data)
+    case TIMER_UPDATED:
+      return state => onTimerUpdated(state, data)
     default:
       return state => state
   }
+}
+
+function onTimerUpdated (state, data) {
+  console.log('new time' + data.timeofday)
+  return { ...state, timeofday: data.timeofday }
 }
 
 function onInitPlayer (state, data) {

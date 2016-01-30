@@ -3,7 +3,9 @@ const ASSET_PATH = "assets"
 const TEXTURES = {
     player: "player.png",
     background: "saari.jpeg",
-    logo: "logo.png"
+    logo: "logo.png",
+    clockborder: "clockborder.png",
+    clock: "clock.png"
 }
 
 export default (callback) => {

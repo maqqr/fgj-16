@@ -33,5 +33,6 @@ export default {
     down: false,
     left: false
   },
-  menufade: 3.0
+  menufade: 3.0,
+  timeofday: 0.0
 }

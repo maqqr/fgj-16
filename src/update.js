@@ -14,7 +14,6 @@ export default (delta, state) => {
 }
 
 function updateMenu (delta, state) {
-  console.log(delta);
   return {
     ...state,
     menufade: Math.max(0, state.menufade - 0.5 * 0.001 * delta)

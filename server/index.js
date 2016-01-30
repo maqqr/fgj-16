@@ -9,7 +9,8 @@ import {
   PLAYER_JOINED,
   PLAYER_LEFT,
   PLAYER_UPDATED_POS,
-  RESOURCE_PICKED
+  RESOURCE_PICKED,
+  TIMER_UPDATED
 } from '../src/networkEventTypes'
 import * as handlers from '../src/sharedEventHandlers'
 
@@ -28,7 +29,8 @@ let state = {
     factory.makeResource({ id: 0 }),
     factory.makeResource({ id: 1 })
   ],
-  resources: {}
+  resources: {},
+  timeofday: 0.0
 }
 
 io.on('connection', function (socket) {
@@ -71,3 +73,8 @@ function onPlayerConnected (socket) {
   socket.emit(INIT_PLAYER, { ...state, playerId: player.id })
   socket.broadcast.emit(PLAYER_JOINED, player)
 }
+
+setInterval(function () {
+  state.timeofday += 0.1
+  io.sockets.emit(TIMER_UPDATED, { timeofday: state.timeofday })
+}, 1000)
