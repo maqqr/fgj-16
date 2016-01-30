@@ -50,9 +50,10 @@ function onPlayerConnected (socket) {
     y,
     vx: 0,
     vy: 0,
-    color: 'green',  // TODO random color
+    texture: 'player',
     width: 30,
-    height: 20
+    height: 40,
+    resources: {}    
   }
 
   state = handlers.onPlayerJoined(state, player)

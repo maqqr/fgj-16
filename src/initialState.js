@@ -1,20 +1,23 @@
 export default {
   playerId: 0,
+  resources: {},
   actors: [
     {
       id: 0,
       type: 'player',
-      color: 'purple',
+      resources: {},
+      texture: 'player',
       x: 10,
       y: 10,
       vx: 0,
       vy: 0,
-      width: 10,
-      height: 10
+      width: 30,
+      height: 40
     },
     {
       id: 74239875,
       type: 'resource',
+      name: 'fish',
       color: 'blue',
       x: 50,
       y: 50,

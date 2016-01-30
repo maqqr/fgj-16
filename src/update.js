@@ -42,12 +42,12 @@ function updatePlayer (delta, state) {
 }
 
 function updateActor (delta, state, actor) {
-  const outOfBounds = !isIn(actor, state)
-  const pos = outOfBounds ? { x: 10, y: 10 } : {
+  const newPos = {
     x: actor.x + actor.vx * delta,
     y: actor.y + actor.vy * delta
   }
-
+  const outOfBounds = !isIn(newPos, state)
+  const pos = outOfBounds ? { x: actor.x, y: actor.y } : newPos
   return { ...actor, ...pos }
 }
 
@@ -63,10 +63,7 @@ function updateResources (delta, state) {
 function updateResource (delta, state, resource) {
   const players = getPlayers(state)
   for (let p of players) {
-    if (collides(p, resource)) {
-      // TODO pick up resource
-      return { ...resource, color: 'black' }
-    }
+    if (collides(p, resource)) return { ...resource, collidesWith: p.id }
   }
 
   return resource

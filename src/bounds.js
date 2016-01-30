@@ -1,8 +1,8 @@
 import {
-  SCREEN_H,
-  SCREEN_W
+  WORLD_H,
+  WORLD_W
 } from './constants'
 
 export function isIn ({ x, y }, state) {
-  return x >= 0 && x <= SCREEN_W && y >= 0 && y <= SCREEN_H
+  return x >= 0 && x <= WORLD_W && y >= 0 && y <= WORLD_H
 }
