@@ -23,6 +23,12 @@ export function onPlayerUpdatedPos (state, data) {
   }
 }
 
+export function onResourceAdded (state, data) {
+  console.log('resource added', data)
+  state.actors.push(data)
+  return state
+}
+
 export function onResourcePicked (state, data) {
   console.log('resource picked', data)
   const actors = state.actors.filter(d => d.id !== data.id)

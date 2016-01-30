@@ -1,5 +1,9 @@
 import _ from 'lodash'
 
+export function hasPlayers ({ actors }) {
+  return actors.filter(d => d.type === 'player').length > 0
+}
+
 export function getPlayer ({ actors, playerId }) {
   return _.find(actors, { id: playerId })
 }

@@ -4,7 +4,7 @@ export function makeResource (props) {
   return {
     id: Math.floor(Math.random() * 10000), // fingers crossed
     type: 'resource',
-    name: 'fish',
+    name: 'banana',
     color: 'blue',
     x: Math.floor(Math.random() * SCREEN_W),
     y: Math.floor(Math.random() * SCREEN_H),

@@ -17,7 +17,7 @@ export default {
     {
       id: 74239875,
       type: 'resource',
-      name: 'fish',
+      name: 'banana',
       color: 'blue',
       x: 50,
       y: 50,

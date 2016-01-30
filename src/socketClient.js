@@ -5,11 +5,13 @@ import {
   PLAYER_JOINED,
   PLAYER_LEFT,
   PLAYER_UPDATED_POS,
+  RESOURCE_ADDED,
   RESOURCE_PICKED
 } from './networkEventTypes'
 import * as handlers from './sharedEventHandlers'
 
 export function onNetworkEvent (event, data) {
+  console.log('received event', event);
   switch (event) {
     case INIT_PLAYER:
       return state => onInitPlayer(state, data)
@@ -19,6 +21,8 @@ export function onNetworkEvent (event, data) {
       return state => handlers.onPlayerLeft(state, data)
     case PLAYER_UPDATED_POS:
       return state => handlers.onPlayerUpdatedPos(state, data)
+    case RESOURCE_ADDED:
+      return state => handlers.onResourceAdded(state, data)
     case RESOURCE_PICKED:
       return state => handlers.onResourcePicked(state, data)
     default:
