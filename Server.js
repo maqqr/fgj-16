@@ -18,7 +18,7 @@ var clients = {};
 var EurecaServer = require('eureca.io').EurecaServer;
 
 //create an instance of EurecaServer
-var eurecaServer = new EurecaServer({allow:['onPlayerMove']});
+var eurecaServer = new EurecaServer({allow:['setId']});
 
 //attach eureca.io to our http server
 eurecaServer.attach(server);

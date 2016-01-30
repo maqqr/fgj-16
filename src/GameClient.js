@@ -1,12 +1,15 @@
 
 function GameClient(){
-	this.server = new ServerConnection(8000);
+	
+	this.init = function(){
+		this.cursors = this.phaserGame.input.keyboard.createCursorKeys();
+	}
 	
 	this.preload = function()
 	{
-		game.load.image('sky', 'assets/sky.png')
-		game.load.image('ball', 'assets/ball.png')
-		this.server.connectToServer();
+		this.phaserGame.load.image('sky', 'assets/sky.png')
+		this.phaserGame.load.image('ball', 'assets/ball.png')
+		this.connectToServer();
 	}
 	
 	this.create = function(){
@@ -25,46 +28,52 @@ function GameClient(){
 		found.x = x;
 		found.y = y;
 		if(serverNeedsNotify){
-			this.server.notifyMovement(id, x, y);
+			this.notifyMovement(id, x, y);
 		}
 	
 	}	
 
 	
 	this.update = function (){
-		var x;
-		var y;
-		if (cursors.up.isDown)
+		var x = 0;
+		var y = 0;
+		if (this.cursors.up.isDown)
 		{
 			y += 4;
 			
 		}
-		else if (cursors.down.isDown)
+		else if (this.cursors.down.isDown)
 		{
 			y -= 4;
 		}
 	
-		if (cursors.left.isDown)
+		if (this.cursors.left.isDown)
 		{
 			x -= 4;
 		}
-		else if (cursors.right.isDown)
+		else if (this.cursors.right.isDown)
 		{
 			x += 4;
 		}
-		inputUpdated(x, y);
+		if(this.player !== undefined && x !== 0 && y !== 0)
+			this.inputUpdated(x, y);
 	}
 	
 	
+
+	this.setId = function(player)
+	{
+		this.player = player;
+	}
 
 
 	this.connectToServer = function(){
 		var con = this;
 		this.eurecaClient = new Eureca.Client();
 		this.eurecaClient.exports.setId = con.setId;
-		this.eurecaClient.exports.updateState = function(state){
-			con.updateState(state);
-		};
+		//this.eurecaClient.exports.updateState = function(state){
+		//	con.updateState(state);
+		//};
 		this.url = "http://" + document.domain;
 		//this.socket = io.connect(url, {port: portNum, transports: ["websocket"]});
 		this.pingSentDate;   // Date object of when the latest ping request was sent
@@ -77,19 +86,18 @@ function GameClient(){
 	}
 
 
-	this.setId = function(id)
-	{
-		this.player.id = id;
-	}
+	
+	var client = this;
+	this.phaserGame = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example');
+	this.phaserGame.state.add('Client', this);
+	this.phaserGame.state.start('Client');
+	
 
 	
 	
 	
-	this.phaserGame = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: this.preload, create: this.create, update: this.update});
-	this.cursors = this.phaserGame.input.keyboard.createCursorKeys();
-	
-	
-	
 }
+
+var gameClient = new GameClient();
 
 
