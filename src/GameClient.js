@@ -2,22 +2,22 @@
 function GameClient(){
 	this.server = new ServerConnection(8000);
 	
-	preload : function()
+	this.preload = function()
 	{
 		game.load.image('sky', 'assets/sky.png')
 		game.load.image('ball', 'assets/ball.png')
 		this.server.connectToServer();
 	}
 	
-	create : function(){
+	this.create = function(){
 		
 	}
 	
-	inputUpdated : function(x, y){
+	this.inputUpdated = function(x, y){
 		this.movePlayer(x, y, this.player.id, true);
 	}
 
-	movePlayer : function(x, y, id, serverNeedsNotify)
+	this.movePlayer = function(x, y, id, serverNeedsNotify)
 	{
 		var found = this.state.findPlayer(id);
 		if(found == undefined)
@@ -31,7 +31,7 @@ function GameClient(){
 	}	
 
 	
-	update : function (){
+	this.update = function (){
 		var x;
 		var y;
 		if (cursors.up.isDown)
@@ -58,7 +58,7 @@ function GameClient(){
 	
 
 
-	connectToServer : function(){
+	this.connectToServer = function(){
 		var con = this;
 		this.eurecaClient = new Eureca.Client();
 		this.eurecaClient.exports.setId = con.setId;
@@ -72,12 +72,12 @@ function GameClient(){
 		this.eurecaClient.ready(this.clientConnected);
 	}
 	
-	notifyMovement : function(id, x, y){
+	this.notifyMovement = function(id, x, y){
 		this.server.onPlayerMove(id, x, y);
 	}
 
 
-	setId : function(id)
+	this.setId = function(id)
 	{
 		this.player.id = id;
 	}
