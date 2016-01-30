@@ -31,4 +31,5 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined'){
 	module.exports.addPlayer = addPlayer;
 	module.exports.addGrain = addGrain;
 	module.exports.findPlayer = findPlayer;
+    module.exports.movePlayer = movePlayer;
 }
