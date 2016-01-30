@@ -37,7 +37,7 @@ eurecaServer.onConnect(function (conn) {
     clients[conn.id] = {id:conn.id, remote:remote}
     
     //here we call setId (defined in the client side)
-    var pl = new Player(2);
+    var pl = new Player(conn.id);
     pl.setPosition(100,100);
     stateFunctions.addPlayer(currentState, pl);
     currentState.runningId = conn.id;
