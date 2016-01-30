@@ -3,11 +3,13 @@ import socketIO from 'socket.io'
 import _ from 'lodash'
 
 import { SCREEN_H, SCREEN_W } from '../src/constants'
+import * as factory from '../src/factory'
 import {
   INIT_PLAYER,
   PLAYER_JOINED,
   PLAYER_LEFT,
-  PLAYER_UPDATED_POS
+  PLAYER_UPDATED_POS,
+  RESOURCE_PICKED
 } from '../src/networkEventTypes'
 import * as handlers from '../src/sharedEventHandlers'
 
@@ -22,7 +24,11 @@ function handler (req, res) {
 }
 
 let state = {
-  actors: []
+  actors: [
+    factory.makeResource({ id: 0 }),
+    factory.makeResource({ id: 1 })
+  ],
+  resources: {}
 }
 
 io.on('connection', function (socket) {
@@ -31,6 +37,11 @@ io.on('connection', function (socket) {
   socket.on(PLAYER_UPDATED_POS, data => {
     socket.broadcast.emit(PLAYER_UPDATED_POS, data)
     state = handlers.onPlayerUpdatedPos(state, data)
+  })
+
+  socket.on(RESOURCE_PICKED, data => {
+    socket.broadcast.emit(RESOURCE_PICKED, data)
+    state = handlers.onResourcePicked(state, data)
   })
 
   socket.on('disconnect', () => {
@@ -57,6 +68,6 @@ function onPlayerConnected (socket) {
   }
 
   state = handlers.onPlayerJoined(state, player)
-  socket.emit(INIT_PLAYER, { actors: state.actors, playerId: player.id })
+  socket.emit(INIT_PLAYER, { ...state, playerId: player.id })
   socket.broadcast.emit(PLAYER_JOINED, player)
 }

@@ -1,6 +1,5 @@
-import _ from 'lodash'
-
-import { getCollidedResources } from './stateSelectors'
+import * as handlers from './sharedEventHandlers'
+import { getCollidedResource } from './stateSelectors'
 
 export default (fps, state) => {
   state = handleResourceCollisions(state)
@@ -8,22 +7,11 @@ export default (fps, state) => {
 }
 
 function handleResourceCollisions (state) {
-  const collidedResources = getCollidedResources(state)
-  const actors = state.actors.filter(d => {
-    return !(d.type === 'resource' && (d.collidesWith || d.collidesWith === 0))
-  })
+  state.collidedResource = getCollidedResource(state)
 
-  collidedResources.forEach(({ collidesWith, name }) => {
-    const actorIndex = _.findIndex(actors, a => a.id === collidesWith)
-    const { resources } = actors[actorIndex]
+  if (state.collidedResource) {
+    return handlers.onResourcePicked(state, state.collidedResource)
+  }
 
-    if (!resources[name]) resources[name] = 0
-    resources[name] = resources[name] + 1
-    actors[actorIndex].resources = resources
-
-    if (!state.resources[name]) state.resources[name] = 0
-    state.resources[name] = state.resources[name] + 1
-  })
-
-  return { ...state, actors }
+  return state
 }

@@ -4,7 +4,8 @@ import {
   INIT_PLAYER,
   PLAYER_JOINED,
   PLAYER_LEFT,
-  PLAYER_UPDATED_POS
+  PLAYER_UPDATED_POS,
+  RESOURCE_PICKED
 } from './networkEventTypes'
 import * as handlers from './sharedEventHandlers'
 
@@ -18,6 +19,8 @@ export function onNetworkEvent (event, data) {
       return state => handlers.onPlayerLeft(state, data)
     case PLAYER_UPDATED_POS:
       return state => handlers.onPlayerUpdatedPos(state, data)
+    case RESOURCE_PICKED:
+      return state => handlers.onResourcePicked(state, data)
     default:
       return state => state
   }
@@ -29,14 +32,17 @@ function onInitPlayer (state, data) {
 }
 
 export function sendPlayerStateToServer (io, state) {
-  const { actors, playerId, updatedPosition } = state
-  if (!updatedPosition) return state
-
-  const player = _.find(actors, { id: playerId })
+  const { actors, collidedResource, playerId, updatedPosition } = state
+  if (!(updatedPosition || collidedResource)) return state
 
   if (updatedPosition) {
+    const player = _.find(actors, { id: playerId })
     io.emit(PLAYER_UPDATED_POS, _.pick(player, ['id', 'x', 'y', 'vx', 'vy']))
   }
 
-  return { ...state, updatedPosition: false }
+  if (collidedResource) {
+    io.emit(RESOURCE_PICKED, collidedResource) // TODO pick properties to send
+  }
+
+  return { ...state, updatedPosition: false, collidedResource: undefined }
 }

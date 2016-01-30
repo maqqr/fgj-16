@@ -1,9 +1,9 @@
 export default {
-  playerId: 0,
+  playerId: 9999999,
   resources: {},
   actors: [
     {
-      id: 0,
+      id: 9999999,
       type: 'player',
       color: 'purple',
       resources: {},
