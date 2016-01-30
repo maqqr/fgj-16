@@ -40,7 +40,6 @@ eurecaServer.onConnect(function (conn) {
     var pl = new Player(conn.id);
     pl.setPosition(100,100);
     stateFunctions.addPlayer(currentState, pl);
-    currentState.runningId = conn.id;
     
     remote.setId(pl);
 	//remote.updateState(currentState);
@@ -65,9 +64,9 @@ eurecaServer.onDisconnect(function (conn) {
 
 eurecaServer.exports.onPlayerMove = function(id, x, y){
     console.log('Client moved id=%s ', id);
-    clients[id].remote.updateUI();
+    stateFunctions.movePlayer(currentState, id, x, y);
+    clients[id].remote.updateUI(currentState);
 }
-
 
 
 eurecaServer.exports.getState = function(){

@@ -7,6 +7,12 @@ addPlayer = function(state, player){
 	state.players[state.players.length] = player;
 }
 
+movePlayer = function(state, id, x, y){
+	player = findPlayer(state, id);
+    player.x = player.x + x;
+    player.y = player.y + y;
+}
+
 findPlayer = function(state, id){
 	
 	var found;
