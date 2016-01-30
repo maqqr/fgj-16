@@ -48,10 +48,7 @@ function updateActor (delta, state, actor) {
     y: actor.y + actor.vy * delta
   }
 
-  return {
-    ...actor,
-    ...pos
-  }
+  return { ...actor, ...pos }
 }
 
 function updateResources (delta, state) {
@@ -66,7 +63,10 @@ function updateResources (delta, state) {
 function updateResource (delta, state, resource) {
   const players = getPlayers(state)
   for (let p of players) {
-    if (collides(p, resource)) return { ...resource, color: 'black' }
+    if (collides(p, resource)) {
+      // TODO pick up resource
+      return { ...resource, color: 'black' }
+    }
   }
 
   return resource

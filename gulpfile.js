@@ -30,7 +30,7 @@ function getBundler() {
 
 function bundle() {
   return getBundler()
-    .transform(babelify.configure({ experimental: true }))
+    .transform('babelify', { presets: ['es2015', 'stage-0'] })
     .bundle()
     .on('error', function(err) { console.log('Error: ' + err.message); })
     .pipe(source(config.outputFile))
