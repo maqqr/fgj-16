@@ -35,7 +35,6 @@ setInterval(() => {
     const id = _.get(_.last(state.actors.filter(d => d.type === 'resource')), 'id', 9999) + 1
     const newResource = factory.makeResource({ id })
     io.sockets.emit(RESOURCE_ADDED, newResource)
-    io.emit(RESOURCE_ADDED, newResource)
     state = handlers.onResourceAdded(state, newResource)
   }
 }, 2000)

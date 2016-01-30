@@ -1,4 +1,4 @@
-import { SCREEN_W, SCREEN_H } from './constants'
+import { WORLD_W, WORLD_H } from './constants'
 
 export function makeResource (props) {
   return {
@@ -6,8 +6,8 @@ export function makeResource (props) {
     type: 'resource',
     name: 'banana',
     color: 'blue',
-    x: Math.floor(Math.random() * SCREEN_W),
-    y: Math.floor(Math.random() * SCREEN_H),
+    x: Math.floor(Math.random() * WORLD_W),
+    y: Math.floor(Math.random() * WORLD_H),
     vx: 0,
     vy: 0,
     width: 40,
