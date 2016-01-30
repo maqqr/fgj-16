@@ -70,10 +70,6 @@ function updateResources (delta, state) {
 }
 
 function updateResource (delta, state, resource) {
-  const players = getPlayers(state)
-  for (let p of players) {
-    if (collides(p, resource)) return { ...resource, collidesWith: p.id }
-  }
-
-  return resource
+  const p = getPlayer(state)
+  return collides(p, resource) ? { ...resource, collidesWith: p.id } : resource
 }

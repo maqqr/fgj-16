@@ -88,7 +88,6 @@ function mainLoop (timestamp, props, state) {
   draw(delta / TIME_STEP, state, CANVAS_CONTEXT, RESOURCES, offset)
 
   state = end(fps, state)
-
   state = sendPlayerStateToServer(io, state)
 
   requestAnimationFrame(ts => mainLoop(ts, {
