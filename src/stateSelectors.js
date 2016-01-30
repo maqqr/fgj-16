@@ -11,3 +11,7 @@ export function getPlayers ({ actors }) {
 export function getResources ({ actors }) {
   return _.filter(actors, { type: 'resource' })
 }
+
+export function getCollidedResources ({ actors }) {
+  return actors.filter(d => d.type === 'resource' && (d.collidesWith || d.collidesWith === 0))
+}

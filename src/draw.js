@@ -6,6 +6,7 @@ import {
 export default (interp, state, cx, res) => {
   clear(interp, state, cx)
   drawActors(interp, state, cx, res)
+  drawGameScore(interp, state, cx, res)
 }
 
 function clear (interp, state, cx) {
@@ -22,5 +23,13 @@ function drawActors (interp, { actors }, cx, res) {
     else if (d.texture !== undefined) {
       cx.drawImage(res.player, d.x, d.y, d.width, d.height)
     }
+
+    if (d.type === 'player') {
+      cx.fillText(JSON.stringify(d.resources), d.x, d.y)
+    }
   })
+}
+
+function drawGameScore (interp, { resources }, cx, res) {
+  cx.fillText(JSON.stringify(resources), 10, 10)
 }

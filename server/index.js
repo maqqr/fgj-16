@@ -52,7 +52,8 @@ function onPlayerConnected (socket) {
     vy: 0,
     color: 'green',  // TODO random color
     width: 30,
-    height: 20
+    height: 20,
+    resources: {}
   }
 
   state = handlers.onPlayerJoined(state, player)
