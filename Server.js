@@ -65,7 +65,7 @@ eurecaServer.onDisconnect(function (conn) {
 
 eurecaServer.exports.onPlayerMove = function(id, x, y){
     console.log('Client moved id=%s ', id);
-    clients[conn.id].remote.updateUI();
+    clients[id].remote.updateUI();
 }
 
 
