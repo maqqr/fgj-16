@@ -18,3 +18,6 @@ Player.prototype.PickUp = function(newItem){
 	this.heldItem = newItem; 
 	return old;
 }
+
+
+module.exports = Player;

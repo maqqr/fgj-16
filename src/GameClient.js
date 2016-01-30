@@ -26,9 +26,9 @@ function GameClient(){
 		found.y = y;
 		if(serverNeedsNotify){
 			this.server.notifyMovement(id, x, y);
-	}
+		}
 	
-}
+	}	
 
 	
 	update : function (){
