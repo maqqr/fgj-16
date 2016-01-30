@@ -36,12 +36,12 @@ function GameClient(){
 		var y = 0;
 		if (this.cursors.up.isDown)
 		{
-			y += 4;
+			y -= 4;
 			
 		}
 		else if (this.cursors.down.isDown)
 		{
-			y -= 4;
+			y += 4;
 		}
 	
 		if (this.cursors.left.isDown)
@@ -61,9 +61,9 @@ function GameClient(){
 	this.setId = function(player)
 	{
 		this.player = player;
-		var playerSprite = this.phaserGame.add.sprite(0,0, 'ball');
+		var playerSprite = this.phaserGame.add.sprite(player.x,player.y, 'ball');
 		playerSprite.player = player;
-		this.playerSprites[this.playerSprites.length] = playerSprite;
+		this.playerSprites[player.id] = playerSprite;
 	}
 
 
@@ -85,11 +85,11 @@ function GameClient(){
 	
 
 	this.updateUI = function(state){
-		
+
 		state.players.forEach(function(element){
 			this.playerSprites[0].x = element.x;
 			this.playerSprites[0].y = element.y;
-		});
+		}, this);
 	}
 	
 	
