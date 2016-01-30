@@ -3,10 +3,13 @@ import {
   SCREEN_W
 } from './constants'
 
-export default (interp, state, cx, res) => {
+export default (interp, state, cx, res, offset) => {
   clear(interp, state, cx)
+  cx.save()
+  cx.translate(offset.x, offset.y)
   drawBackground(interp, state, cx, res)
   drawActors(interp, state, cx, res)
+  cx.restore()
 }
 
 function clear (interp, state, cx) {
