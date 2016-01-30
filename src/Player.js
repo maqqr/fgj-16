@@ -1,6 +1,8 @@
+var worldObject = require('./WorldObject');
+
 //Javascript inheritance stuff
-Player.prototype = Object.create(WorldObject.prototype);
-Player.prototype.constructor = WorldObject;
+Player.prototype = Object.create(worldObject.WorldObject.prototype);
+Player.prototype.constructor = worldObject.WorldObject;
 
 
 function Player(id){
@@ -20,7 +22,7 @@ Player.prototype.PickUp = function(newItem){
 **************************************************/
 //var util = require("util");
 
-var Player = function(startX, startY, startAngle, playerName, isEliminated,
+/*var Player = function(startX, startY, startAngle, playerName, isEliminated,
     startPoints) {
     var x = startX,
         y = startY,
@@ -110,8 +112,8 @@ var Player = function(startX, startY, startAngle, playerName, isEliminated,
         checkSpamTimer: checkSpamTimer,
         resetSpamTimer: resetSpamTimer
     };
-};
+};*/
 
 // Export the Player class so you can use it in
 // other files by using require("Player").Player
-exports.Player = Player;
+module.exports = Player;

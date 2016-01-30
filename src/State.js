@@ -3,7 +3,7 @@
 function State(){
 	this.grains = [];
 	this.players = [];
-	
+	this.runningId = 0;
 }
 
 
@@ -13,7 +13,7 @@ State.prototype.addGrain = function(grain){
 
 
 State.prototype.addPlayer = function(player){
-	this.players[player.id] = player;
+	this.players[this.players.length] = player;
 }
 
 State.prototype.findPlayer = function(id){
@@ -29,3 +29,5 @@ State.prototype.findPlayer = function(id){
 	return found;
 	
 }
+
+module.exports = State;

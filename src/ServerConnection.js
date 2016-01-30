@@ -1,15 +1,48 @@
 
 
-function ServerConnection(port, events){
-	this.connectToServer(port);
-	this.registerToServerEvents(events);
+function ServerConnection(port){
+	this.port = port;
+	this.stateUpdateListeners = [];
+	this.onClientConnected = null;
+	//this.connectToServer(port);
+	//this.registerToServerEvents(events);
 }
 
-ServerConnection.prototype.connectToServer = function(portNum){
+
+
+ServerConnection.prototype.connectToServer = function(){
+	var con = this;
+	this.eurecaClient = new Eureca.Client();
+	this.eurecaClient.exports.setId = con.setId;
+	this.eurecaClient.exports.updateState = function(state){
+		con.updateState(state);
+	};
 	this.url = "http://" + document.domain;
-    this.socket = io.connect(url, {port: portNum, transports: ["websocket"]});
+    //this.socket = io.connect(url, {port: portNum, transports: ["websocket"]});
 	this.pingSentDate;   // Date object of when the latest ping request was sent
     this.pingTime;      
+	this.eurecaClient.ready(this.clientConnected);
+}
+
+
+ServerConnection.prototype.setId = function(id)
+{
+	this.id = id;
+}
+
+
+ServerConnection.prototype.updateState = function(state)
+{
+	this.stateUpdateListeners.forEach(function(element){
+		element.process(state);
+	});
+}
+
+
+ServerConnection.prototype.clientConnected = function(proxy){
+	this.server = proxy;
+	if(this.onClientConnected)
+		this.onClientConnected.process();
 	
 }
 
@@ -17,7 +50,7 @@ ServerConnection.prototype.connectToServer = function(portNum){
 ServerConnection.prototype.registerToServerEvents = function(events){
 	
 	events.forEach(function(element, index, arr){
-		this.socket.on(element.name, element.func)
+		//this.socket.on(element.name, element.func)
 	});
 	
 	//  // Socket connection successful
@@ -63,8 +96,14 @@ ServerConnection.prototype.registerToServerEvents = function(events){
     //this.socket.on("welcome back", onWelcomeBack);
 }
 
+ServerConnection.prototype.getFreeId = function(){
+	   
+	return 2;
+}
 
-// Socket connected
+ServerConnection.prototype.getState = function(){
+	this.updateState(this.server.getState());
+}
 
 
 ServerConnection.prototype.sendPing = function() {
@@ -86,8 +125,10 @@ ServerConnection.prototype.onMessage = function(data) {
     chat.scrollTop = chat.scrollHeight;
 }
 
+ServerConnection.prototype.registerForOnClientConnected = function(callable, caller){
+	this.onClientConnected = new EventHandler(callable, caller);
+}
 
-
-ServerConnection.prototype.registerForStateChange = function(callable){
-	this.server.doTheThing(callable); //Dum di dum
+ServerConnection.prototype.registerForStateChange = function(callable, caller){
+	this.stateUpdateListeners[this.stateUpdateListeners.length] = new EventHandler(callable, caller);
 }

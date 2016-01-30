@@ -1,38 +1,47 @@
 
 
-gameClient = new GameClient();
 
 function GameClient(){
-	this.start();
+
 	
-	//this.server = server;
-	this.state = this.server.getState();
-	this.pc = new PlayerController(this.server.getFreeId(), this.state)
-	//this.player = this.state.findPlayer(this.id);
-	//this.ui = ui;
+	this.server = new ServerConnection(8000);
+	this.pc = new PlayerController()
+	this.state = null;
 	
+	this.input = new Input();
+	this.ui = new UI();
+	this.ui.registerForOnClientConnected(this.start, this);
+	this.ui.start();
 
 
 }
 
 GameClient.prototype.start = function()
-{
-	
-		var events = [
-	 {name:"connect", func:onConnect}
-	];
-	
-	this.registerEvents();
-	
-	this.server = new ServerConnection(8000, events);
-	this.ui = new UI();
-	this.input = new Input();
+	{
+		var client = this;
+		//var events = [
+		//{name:"connect", func:client.onConnect}
+		//];
+		//this.server.registerToServerEvents(events);
+		this.registerEvents();
+		this.server.connectToServer();
+
+		this.pc.register(this.server.getFreeId(), this.state);
+
+
+	}
+
+
+GameClient.prototype.onConnect = function(){
+	this.server.getState();
 }
 
 
 GameClient.prototype.registerEvents = function(){
 	this.input.registerForInput(this.inputUpdated);
-	this.server.registerForStateChange(this.updateState); //To be made into smaller different callables
+	//var client = this;
+	this.server.registerForOnClientConnected(this.onConnect, this);
+	this.server.registerForStateChange(this.updateState, this);
 }
 
 
@@ -55,9 +64,10 @@ GameClient.prototype.movePlayer = function(x, y, id, serverNeedsNotify)
 }
 
 
-GameClient.prototype.updateState = function(state)
+GameClient.prototype.updateState = function(stateArgs)
 {
-	this.state = state;
+	this.state = stateArgs[0];
+	this.ui.updateState(this.state);
 	//this.ui.drawState(this.state);
 }
 
@@ -225,5 +235,9 @@ GameClient.prototype.onWelcomeBack = function(data) {
     socket.emit("new player", {name: data.name, points: data.points, new: false});
 }
 
+
+
+gameClient = new GameClient();
+gameClient.start();
 
 
