@@ -10,9 +10,11 @@ import {
   PLAYER_LEFT,
   PLAYER_UPDATED_POS,
   RESOURCE_PICKED,
+  RESOURCE_ADDED,
   TIMER_UPDATED
 } from '../src/networkEventTypes'
 import * as handlers from '../src/sharedEventHandlers'
+import { hasPlayers } from '../src/stateSelectors'
 
 const app = http.createServer(handler)
 app.listen(3001)
@@ -25,13 +27,19 @@ function handler (req, res) {
 }
 
 let state = {
-  actors: [
-    factory.makeResource({ id: 0 }),
-    factory.makeResource({ id: 1 })
-  ],
+  actors: [],
   resources: {},
   timeofday: 0.0
 }
+
+setInterval(() => {
+  if (hasPlayers(state)) {
+    const id = _.get(_.last(state.actors.filter(d => d.type === 'resource')), 'id', 9999) + 1
+    const newResource = factory.makeResource({ id })
+    io.sockets.emit(RESOURCE_ADDED, newResource)
+    state = handlers.onResourceAdded(state, newResource)
+  }
+}, 2000)
 
 io.on('connection', function (socket) {
   onPlayerConnected(socket)
@@ -50,6 +58,9 @@ io.on('connection', function (socket) {
     const { id } = socket
     socket.broadcast.emit(PLAYER_LEFT, { id })
     state = handlers.onPlayerLeft(state, { id })
+
+    // Restart state when the last player leaves
+    if (!hasPlayers(state)) state = { ...state, actors: [], resources: {} }
   })
 })
 
@@ -64,9 +75,10 @@ function onPlayerConnected (socket) {
     vx: 0,
     vy: 0,
     texture: 'player',
+    type: 'player',
     width: 30,
     height: 40,
-    resources: {}    
+    resources: {}
   }
 
   state = handlers.onPlayerJoined(state, player)
