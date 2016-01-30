@@ -13,7 +13,7 @@ export default (interp, state, cx, res, offset) => {
 }
 
 function clear (interp, state, cx) {
-  cx.fillStyle = 'white'
+  cx.fillStyle = '#4A58B9'
   cx.fillRect(0, 0, SCREEN_W, SCREEN_H)
 }
 
