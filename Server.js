@@ -22,12 +22,10 @@ var clients = {};
 var EurecaServer = require('eureca.io').EurecaServer;
 
 //create an instance of EurecaServer
-var eurecaServer = new EurecaServer({allow:['setId', 'spawnEnemy', 'kill', 'updateState']});
+var eurecaServer = new EurecaServer({allow:['onPlayerMove']});
 
 //attach eureca.io to our http server
 eurecaServer.attach(server);
-
-
 
 
 //eureca.io provides events to detect clients connect/disconnect
@@ -44,7 +42,7 @@ eurecaServer.onConnect(function (conn) {
     
     //here we call setId (defined in the client side)
     remote.setId(conn.id);
-	remote.updateState(currentState);
+	//remote.updateState(currentState);
 });
 
 //detect client disconnection
@@ -64,41 +62,45 @@ eurecaServer.onDisconnect(function (conn) {
     }   
 });
 
+eurecaServer.exports.onPlayerMove = function(id, x, y){
+    console.log('Client moved id=%s ', id);
+}
+
+
 
 eurecaServer.exports.getState = function(){
 	return currentState;
 }
 
+// eurecaServer.exports.handshake = function()
+// {
+//     for (var c in clients)
+//     {
+//         var remote = clients[c].remote;
+//         for (var cc in clients)
+//         {
+//             //send latest known position
+//             var x = clients[cc].laststate ? clients[cc].laststate.x:  0;
+//             var y = clients[cc].laststate ? clients[cc].laststate.y:  0;
+// 
+//             remote.spawnEnemy(clients[cc].id, x, y);
+//         }
+//     }
+// }
 
-eurecaServer.exports.handshake = function()
-{
-    for (var c in clients)
-    {
-        var remote = clients[c].remote;
-        for (var cc in clients)
-        {
-            //send latest known position
-            var x = clients[cc].laststate ? clients[cc].laststate.x:  0;
-            var y = clients[cc].laststate ? clients[cc].laststate.y:  0;
 
-            remote.spawnEnemy(clients[cc].id, x, y);
-        }
-    }
-}
-
-
-//be exposed to client side
-eurecaServer.exports.handleKeys = function (keys) {
-    var conn = this.connection;
-    var updatedClient = clients[conn.id];
-    
-    for (var c in clients)
-    {
-        var remote = clients[c].remote;
-        remote.updateState(updatedClient.id, keys);
-        
-        //keep last known state so we can send it to new connected clients
-        clients[c].laststate = keys;
-    }
-}
+// be exposed to client side
+// eurecaServer.exports.handleKeys = function (keys) {
+//     var conn = this.connection;
+//     var updatedClient = clients[conn.id];
+//     
+//     for (var c in clients)
+//     {
+//         var remote = clients[c].remote;
+//         remote.updateState(updatedClient.id, keys);
+//         
+//         //keep last known state so we can send it to new connected clients
+//         clients[c].laststate = keys;
+//     }
+// }
 server.listen(8000);
