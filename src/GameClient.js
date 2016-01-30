@@ -93,6 +93,18 @@ function GameClient(){
 	}
 	
 	
+	this.onPlayerDisconnect = function(disconnectedPlayerId){
+		if(disconnectedPlayerId === this.player.id)
+		{
+			//TODO: reconnect and stuff
+		}
+		else{
+		 	var sprite = this.playerSprites[disconnectedPlayerId];
+			sprite.destroy();
+		}
+	}
+	
+	
 	this.getPlayerSprite = function(player){
 		if(this.playerSprites[player.id] === undefined)
 		{
