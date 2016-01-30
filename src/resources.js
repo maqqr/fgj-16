@@ -1,6 +1,6 @@
 
 const ASSET_PATH = "assets"
-const TEXTURES = { player: "player.png" }
+const TEXTURES = { player: "player.png", background: "saari.jpeg" }
 
 export default (callback) => {
     var resources = {}
