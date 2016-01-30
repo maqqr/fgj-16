@@ -31,7 +31,7 @@ var clients = {};
 var EurecaServer = require('eureca.io').EurecaServer;
 
 //create an instance of EurecaServer
-var eurecaServer = new EurecaServer({allow:['setId','updateUI']});
+var eurecaServer = new EurecaServer({allow:['setId','updateUI','onPlayerDisconnect']});
 
 //attach eureca.io to our http server
 eurecaServer.attach(server);
@@ -60,19 +60,20 @@ eurecaServer.onConnect(function (conn) {
 
 //detect client disconnection
 eurecaServer.onDisconnect(function (conn) {    
-  //  console.log('Client disconnected ', conn.id);
-  //  
-  //  var removeId = clients[conn.id].id;
-  //  
-  //  delete clients[conn.id];
-  //  
-  //  for (var c in clients)
-  //  {
-  //      var remote = clients[c].remote;
-  //      
-  //      //here we call kill() method defined in the client side
-  //      remote.kill(conn.id);
-  //  }   
+   console.log('Client disconnected ', conn.id);
+   
+   // var removeId = clients[conn.id].id;
+   
+   delete clients[conn.id];
+   delete currentState.players[conn.id];
+   
+   
+   for (var c in clients)
+   {
+       var remote = clients[c].remote;
+       
+       remote.onPlayerDisconnect(conn.id);
+   }   
 });
 
 eurecaServer.exports.onPlayerMove = function(id, x, y){
