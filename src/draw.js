@@ -39,5 +39,6 @@ function drawActors (interp, { actors }, cx, res) {
 }
 
 function drawGameScore (interp, { resources }, cx, res) {
+  cx.fillStyle = 'black';
   cx.fillText(JSON.stringify(resources), 10, 10)
 }
