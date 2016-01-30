@@ -21,9 +21,8 @@ function updateKeyboard (state, eventType, keyCode) {
     [dir]: eventType === 'keydown'
   }
 
-  if (state.keyboard[dir] !== keyboard[dir]) {
-    io.emit('playerUpdate', { playerId: state.playerId, keyboard })
-  }
+  // Keeping track whether we should notify server of the updated position:
+  const updatedPosition = state.keyboard[dir] !== keyboard[dir]
 
-  return { ...state, keyboard }
+  return { ...state, keyboard, updatedPosition }
 }

@@ -1,5 +1,6 @@
 /* global requestAnimationFrame */
 import socketIO from 'socket.io-client'
+import _ from 'lodash'
 
 import {
   DEFAULT_LOOP_PROPS,
@@ -10,6 +11,8 @@ import draw from './draw'
 import onKey from './keys'
 import end from './end'
 import initialState from './initialState'
+import * as networkEventTypes from './networkEventTypes'
+import { onNetworkEvent, sendPlayerStateToServer } from './socketClient'
 import update from './update'
 
 let EVENTS = []
@@ -20,15 +23,17 @@ let CANVAS_CONTEXT
 })
 
 const io = socketIO('http://localhost:3001')
-window.io = io
-io.on('news', function (data) {
-  console.log(data)
-  io.emit('my other event', { my: 'data' })
+
+_.keys(networkEventTypes).forEach(d => {
+  io.on(d, data => EVENTS.push(onNetworkEvent(d, data)))
 })
+// io.on('news', function (data) {
+//   console.log(data)
+//   io.emit('my other event', { my: 'data' })
+// })
 
 global.app = () => {
   CANVAS_CONTEXT = document.getElementById('canvas').getContext('2d')
-
   requestAnimationFrame(ts => mainLoop(ts, DEFAULT_LOOP_PROPS, initialState))
 }
 
@@ -76,6 +81,8 @@ function mainLoop (timestamp, props, state) {
   draw(delta / TIME_STEP, state, CANVAS_CONTEXT)
 
   state = end(fps, state)
+
+  state = sendPlayerStateToServer(io, state)
 
   requestAnimationFrame(ts => mainLoop(ts, {
     delta,

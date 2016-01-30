@@ -1,0 +1,1 @@
+export const PLAYER_UPDATED_POS = 'PLAYER_UPDATED_POS'
