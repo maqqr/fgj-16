@@ -1,9 +1,14 @@
+import _ from 'lodash'
+
 import { isIn } from './bounds'
+import { collides } from './collision'
 import { PLAYER_V } from './constants'
+import { getPlayer, getPlayers, getResources } from './stateSelectors'
 
 export default (delta, state) => {
   state = updatePlayer(delta, state)
   state = updateActors(delta, state)
+  state = updateResources(delta, state)
   return state // TODO
 }
 
@@ -47,4 +52,22 @@ function updateActor (delta, state, actor) {
     ...actor,
     ...pos
   }
+}
+
+function updateResources (delta, state) {
+  return {
+    ...state,
+    actors: state.actors.map(d => {
+      return d.type === 'resource' ? updateResource(delta, state, d) : d
+    })
+  }
+}
+
+function updateResource (delta, state, resource) {
+  const players = getPlayers(state)
+  for (let p of players) {
+    if (collides(p, resource)) return { ...resource, color: 'black' }
+  }
+
+  return resource
 }
