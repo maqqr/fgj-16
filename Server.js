@@ -10,6 +10,9 @@ var express = require('express')
 app.use(express.static(__dirname));
 
 var currentState = new State();
+// var pl = new Player(50);
+// pl.setPosition(40,100);
+// stateFunctions.addPlayer(currentState, pl);
 
 //we'll keep clients data here
 var clients = {};
@@ -39,7 +42,7 @@ eurecaServer.onConnect(function (conn) {
     //here we call setId (defined in the client side)
     var pl = new Player(conn.id);
     pl.setPosition(100,100);
-    stateFunctions.addPlayer(currentState, pl);
+    currentState = stateFunctions.addPlayer(currentState, pl);
     
     remote.setId(pl);
 	//remote.updateState(currentState);
@@ -63,8 +66,11 @@ eurecaServer.onDisconnect(function (conn) {
 });
 
 eurecaServer.exports.onPlayerMove = function(id, x, y){
-    console.log('Client moved id=%s ', id);
+    
     stateFunctions.movePlayer(currentState, id, x, y);
+    console.log('Client moved id=%s and location: %s,%s', id, currentState.players[id].x, currentState.players[id].y);
+    console.log(JSON.stringify(currentState.players));
+    currentState.runningId = 5;
     clients[id].remote.updateUI(currentState);
 }
 

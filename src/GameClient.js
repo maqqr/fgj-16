@@ -85,11 +85,12 @@ function GameClient(){
 	
 
 	this.updateUI = function(state){
-		
-		state.players.forEach(function(element){
-			this.playerSprites[0].x = element.x;
-			this.playerSprites[0].y = element.y;
-		});
+		console.log(state.runningId);
+		for(var playerKey in state.players){
+            var elem = state.players[playerKey];
+			this.playerSprites[0].x = elem.x;
+			this.playerSprites[0].y = elem.y;
+		}
 	}
 	
 	
