@@ -11,7 +11,9 @@ import onKey from './keys'
 import end from './end'
 import initialState from './initialState'
 import update from './update'
+import loadResources from './resources'
 
+let RESOURCES = {}
 let EVENTS = []
 let CANVAS_CONTEXT
 
@@ -28,8 +30,10 @@ io.on('news', function (data) {
 
 global.app = () => {
   CANVAS_CONTEXT = document.getElementById('canvas').getContext('2d')
-
-  requestAnimationFrame(ts => mainLoop(ts, DEFAULT_LOOP_PROPS, initialState))
+  loadResources(function (res) {
+    RESOURCES = res
+    requestAnimationFrame(ts => mainLoop(ts, DEFAULT_LOOP_PROPS, initialState))
+  })
 }
 
 function mainLoop (timestamp, props, state) {

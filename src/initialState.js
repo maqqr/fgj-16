@@ -4,6 +4,7 @@ export default {
     {
       id: 0,
       color: 'red',
+      type: 'player',
       x: 10,
       y: 10,
       vx: 0,
