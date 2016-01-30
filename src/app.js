@@ -14,7 +14,9 @@ import initialState from './initialState'
 import * as networkEventTypes from './networkEventTypes'
 import { onNetworkEvent, sendPlayerStateToServer } from './socketClient'
 import update from './update'
+import loadResources from './resources'
 
+let RESOURCES = {}
 let EVENTS = []
 let CANVAS_CONTEXT
 
@@ -30,7 +32,10 @@ _.keys(networkEventTypes).forEach(d => {
 
 global.app = () => {
   CANVAS_CONTEXT = document.getElementById('canvas').getContext('2d')
-  requestAnimationFrame(ts => mainLoop(ts, DEFAULT_LOOP_PROPS, initialState))
+  loadResources(function (res) {
+    RESOURCES = res
+    requestAnimationFrame(ts => mainLoop(ts, DEFAULT_LOOP_PROPS, initialState))
+  })
 }
 
 function mainLoop (timestamp, props, state) {
@@ -74,7 +79,7 @@ function mainLoop (timestamp, props, state) {
     }
   }
 
-  draw(delta / TIME_STEP, state, CANVAS_CONTEXT)
+  draw(delta / TIME_STEP, state, CANVAS_CONTEXT, RESOURCES)
 
   state = end(fps, state)
 

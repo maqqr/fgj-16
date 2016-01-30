@@ -1,16 +1,17 @@
 export default {
   playerId: 0,
   actors: [
-    // {
-    //   id: 0,
-    //   color: 'red',
-    //   x: 10,
-    //   y: 10,
-    //   vx: 0,
-    //   vy: 0,
-    //   height: 20,
-    //   width: 10
-    // }
+    {
+      id: 74239875,
+      type: 'resource',
+      color: 'blue',
+      x: 50,
+      y: 50,
+      vx: 0,
+      vy: 0,
+      width: 50,
+      height: 40
+    }
   ],
   keyboard: {
     up: false,
