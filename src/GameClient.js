@@ -3,17 +3,19 @@ function GameClient(){
 	
 	this.init = function(){
 		this.cursors = this.phaserGame.input.keyboard.createCursorKeys();
+		this.playerSprites = [];
 	}
 	
 	this.preload = function()
 	{
 		this.phaserGame.load.image('sky', 'assets/sky.png')
 		this.phaserGame.load.image('ball', 'assets/ball.png')
-		this.connectToServer();
+
 	}
 	
 	this.create = function(){
-		
+		this.connectToServer();
+		this.background = this.phaserGame.add.sprite(0,0, 'sky');
 	}
 	
 	this.inputUpdated = function(x, y){
@@ -22,11 +24,6 @@ function GameClient(){
 
 	this.movePlayer = function(x, y, id, serverNeedsNotify)
 	{
-		var found = this.state.findPlayer(id);
-		if(found == undefined)
-			return;
-		found.x = x;
-		found.y = y;
 		if(serverNeedsNotify){
 			this.notifyMovement(id, x, y);
 		}
@@ -55,7 +52,7 @@ function GameClient(){
 		{
 			x += 4;
 		}
-		if(this.player !== undefined && x !== 0 && y !== 0)
+		if(this.player !== undefined && (x !== 0 || y !== 0))
 			this.inputUpdated(x, y);
 	}
 	
@@ -64,13 +61,18 @@ function GameClient(){
 	this.setId = function(player)
 	{
 		this.player = player;
+		var playerSprite = this.phaserGame.add.sprite(0,0, 'ball');
+		playerSprite.player = player;
+		this.playerSprites[this.playerSprites.length] = playerSprite;
 	}
+
 
 
 	this.connectToServer = function(){
 		var con = this;
 		this.eurecaClient = new Eureca.Client();
 		this.eurecaClient.exports.setId = function(player){ con.setId(player);};
+		this.eurecaClient.exports.updateUI = function(state){ con.updateUI(state); };
 		//this.eurecaClient.exports.updateState = function(state){
 		//	con.updateState(state);
 		//};
@@ -78,11 +80,16 @@ function GameClient(){
 		//this.socket = io.connect(url, {port: portNum, transports: ["websocket"]});
 		this.pingSentDate;   // Date object of when the latest ping request was sent
 		this.pingTime;      
-		this.eurecaClient.ready(this.clientConnected);
+		this.eurecaClient.ready(function (proxy) {con.server = proxy;});
 	}
 	
-	this.clientConnected = function(){
+
+	this.updateUI = function(state){
 		
+		state.players.forEach(function(element){
+			this.playerSprites[0].x = element.x;
+			this.playerSprites[0].y = element.y;
+		});
 	}
 	
 	
