@@ -27,10 +27,6 @@ const io = socketIO('http://localhost:3001')
 _.keys(networkEventTypes).forEach(d => {
   io.on(d, data => EVENTS.push(onNetworkEvent(d, data)))
 })
-// io.on('news', function (data) {
-//   console.log(data)
-//   io.emit('my other event', { my: 'data' })
-// })
 
 global.app = () => {
   CANVAS_CONTEXT = document.getElementById('canvas').getContext('2d')
