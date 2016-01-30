@@ -32,5 +32,6 @@ export default {
     right: false,
     down: false,
     left: false
-  }
+  },
+  menufade: 3.0
 }
