@@ -11,7 +11,8 @@
     "url": "https://github.com/thoughtram/es6-6to5-browserify-boilerplate/issues"
   },
   "scripts": {
-    "start": "nodemon server/index.js --exec babel-node --presets es2015,stage-0"
+    "start": "babel-node --presets es2015,stage-0 server/index.js",
+    "watch": "nodemon server/index.js --exec babel-node --presets es2015,stage-0"
   },
   "devDependencies": {
     "babel-cli": "^6.4.5",
