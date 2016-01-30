@@ -71,6 +71,8 @@ function GameClient(){
 		this.eurecaClient = new Eureca.Client();
 		this.eurecaClient.exports.setId = function(player){ con.setId(player);};
 		this.eurecaClient.exports.updateUI = function(state){ con.updateUI(state); };
+		this.eurecaClient.exports.onPlayerDisconnect = function(id){ con.onPlayerDisconnect(id); };
+		
 		//this.eurecaClient.exports.updateState = function(state){
 		//	con.updateState(state);
 		//};
