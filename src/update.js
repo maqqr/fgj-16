@@ -42,12 +42,12 @@ function updatePlayer (delta, state) {
 }
 
 function updateActor (delta, state, actor) {
-  const outOfBounds = !isIn(actor, state)
-  const pos = outOfBounds ? { x: 10, y: 10 } : {
+  const newPos = {
     x: actor.x + actor.vx * delta,
     y: actor.y + actor.vy * delta
   }
-
+  const outOfBounds = !isIn(newPos, state)
+  const pos = outOfBounds ? { x: actor.x, y: actor.y } : newPos
   return { ...actor, ...pos }
 }
 

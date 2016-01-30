@@ -2,3 +2,5 @@
 node_modules
 dist
 *.blend1
+build.bat
+server.bat

@@ -5,7 +5,9 @@ import _ from 'lodash'
 import {
   DEFAULT_LOOP_PROPS,
   MAX_FPS,
-  TIME_STEP
+  TIME_STEP,
+  SCREEN_W,
+  SCREEN_H
 } from './constants'
 import draw from './draw'
 import onKey from './keys'
@@ -15,6 +17,7 @@ import * as networkEventTypes from './networkEventTypes'
 import { onNetworkEvent, sendPlayerStateToServer } from './socketClient'
 import update from './update'
 import loadResources from './resources'
+import { getPlayer, getPlayers, getResources } from './stateSelectors'
 
 let RESOURCES = {}
 let EVENTS = []
@@ -78,7 +81,11 @@ function mainLoop (timestamp, props, state) {
     }
   }
 
-  draw(delta / TIME_STEP, state, CANVAS_CONTEXT, RESOURCES)
+  // Calculate camera offset.
+  let player = getPlayer(state)
+  let offset = { x: -player.x + SCREEN_W/2, y: -player.y + SCREEN_H/2 }
+
+  draw(delta / TIME_STEP, state, CANVAS_CONTEXT, RESOURCES, offset)
 
   state = end(fps, state)
   state = sendPlayerStateToServer(io, state)
