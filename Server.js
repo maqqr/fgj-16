@@ -2,6 +2,7 @@ var express = require('express')
   , app = express(app)
   , server = require('http').createServer(app)
   , State = require('./src/State')
+  , stateFunctions = require('./src/StateFunctions')
   , Player = require('./src/Player');
   
 
@@ -11,7 +12,7 @@ app.use(express.static(__dirname));
 var currentState = new State();
 var pl = new Player(2);
 pl.setPosition(100,100);
-currentState.addPlayer(pl);
+stateFunctions.addPlayer(currentState, pl);
 currentState.runningId = 5;
 
 //we'll keep clients data here

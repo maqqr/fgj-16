@@ -8,6 +8,8 @@ Player.prototype.constructor = worldObject.WorldObject;
 function Player(id){
 	this.id = id;
 	this.heldItem = null;
+	this.vx = 0;
+	this.vy = 0;
 }
 
 

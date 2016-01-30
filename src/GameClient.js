@@ -38,7 +38,8 @@ GameClient.prototype.onConnect = function(){
 
 
 GameClient.prototype.registerEvents = function(){
-	this.input.registerForInput(this.inputUpdated);
+	this.input.registerForVerticalInput(this.inputVerticalUpdated);
+	this.input.registerForHorizontalInput(this.inputHorizontalUpdated);
 	//var client = this;
 	this.server.registerForOnClientConnected(this.onConnect, this);
 	this.server.registerForStateChange(this.updateState, this);

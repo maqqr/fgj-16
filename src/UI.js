@@ -3,7 +3,7 @@
 function UI()
 {
 	this.pairs = [];
-	//this.state = state;
+	this.gameState = undefined;
 
 }
 
@@ -18,7 +18,7 @@ UI.prototype.start = function()
 	this.phaserGame = new Phaser.Game(1024, 768, Phaser.AUTO);
 	this.phaserGame.state.add('UI', this);
 	this.phaserGame.state.start('UI');
-
+	this.gameState = undefined;
 }
 
 
@@ -46,15 +46,20 @@ UI.prototype.createObjects = function(state){
 UI.prototype.updateState = function(state)
 {
 	if(this.phaserGame == undefined) return;
-	if(this.gameState)
+	if(this.gameState && this.gameState.players != undefined)
 		var oldState = this.gameState
 	this.gameState = state;
-	for (player of this.gameState.players){
+	for (var playerInArr in this.gameState.players){
+		var player = this.gameState.players[playerInArr];
 		if(oldState)
-			var inOld = oldState.findPlayer(player.id);
+			var inOld = findPlayer(oldState, player.id);
 		if(inOld)
 		{
-			this.pairs[inOld.id].wObj.setPosition(player.x, player.y);
+			var pair = this.pairs[inOld.id];
+			pair.wObj.setPosition(player.x, player.y);
+			pair.sprite.x = player.x;
+			pair.sprite.y = player.y;
+			
 		}
 		else
 		{
