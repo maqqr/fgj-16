@@ -3,15 +3,23 @@ import {
   SCREEN_W
 } from './constants'
 
-export default (interp, state, cx, res) => {
+export default (interp, state, cx, res, offset) => {
   clear(interp, state, cx)
+  cx.save()
+  cx.translate(offset.x, offset.y)
+  drawBackground(interp, state, cx, res)
   drawActors(interp, state, cx, res)
+  cx.restore()
   drawGameScore(interp, state, cx, res)
 }
 
 function clear (interp, state, cx) {
-  cx.fillStyle = 'white'
+  cx.fillStyle = '#4A58B9'
   cx.fillRect(0, 0, SCREEN_W, SCREEN_H)
+}
+
+function drawBackground (interp, state, cx, res) {
+  cx.drawImage(res.background, 0, 0)
 }
 
 function drawActors (interp, { actors }, cx, res) {
