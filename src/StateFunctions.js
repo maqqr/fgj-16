@@ -4,26 +4,17 @@ addGrain = function(state, grain){
 
 
 addPlayer = function(state, player){
-	state.players[state.players.length] = player;
+	state.players[player.id] = player;
 }
 
 movePlayer = function(state, id, x, y){
-	player = findPlayer(state, id);
+	player = state.players[id];
     player.x = player.x + x;
     player.y = player.y + y;
 }
 
 findPlayer = function(state, id){
-	
-	var found;
-	found = state.players[id];
-	state.players.forEach(function(element, index, array){
-		if(element.id == id){
-			return found;
-		}
-	});
-	return null;
-	
+	return state.players[id];
 }
 
 
