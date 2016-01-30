@@ -18,7 +18,7 @@ var clients = {};
 var EurecaServer = require('eureca.io').EurecaServer;
 
 //create an instance of EurecaServer
-var eurecaServer = new EurecaServer({allow:['setId']});
+var eurecaServer = new EurecaServer({allow:['setId','update']});
 
 //attach eureca.io to our http server
 eurecaServer.attach(server);
@@ -65,6 +65,7 @@ eurecaServer.onDisconnect(function (conn) {
 
 eurecaServer.exports.onPlayerMove = function(id, x, y){
     console.log('Client moved id=%s ', id);
+    clients[conn.id].remote.update();
 }
 
 
