@@ -5,6 +5,7 @@ addGrain = function(state, grain){
 
 addPlayer = function(state, player){
 	state.players[player.id] = player;
+    return state;
 }
 
 movePlayer = function(state, id, x, y){

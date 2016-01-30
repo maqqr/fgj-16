@@ -61,9 +61,7 @@ function GameClient(){
 	this.setId = function(player)
 	{
 		this.player = player;
-		var playerSprite = this.phaserGame.add.sprite(player.x,player.y, 'ball');
-		playerSprite.player = player;
-		this.playerSprites[player.id] = playerSprite;
+		this.getPlayerSprite(player);
 	}
 
 
@@ -86,10 +84,27 @@ function GameClient(){
 
 	this.updateUI = function(state){
 
-		state.players.forEach(function(element){
-			this.playerSprites[0].x = element.x;
-			this.playerSprites[0].y = element.y;
-		}, this);
+		for(var playerKey in state.players){
+            var elem = state.players[playerKey];
+			var sprite = this.getPlayerSprite(elem);
+			sprite.x = elem.x;
+			sprite.y = elem.y;
+		}
+	}
+	
+	
+	this.getPlayerSprite = function(player){
+		if(this.playerSprites[player.id] === undefined)
+		{
+			var sprite = this.phaserGame.add.sprite(player.x, player.y, 'ball');
+			sprite.player = player;
+			this.playerSprites[player.id] = sprite;
+			return sprite;
+		}
+		else
+		{
+			return this.playerSprites[player.id];
+		}
 	}
 	
 	
