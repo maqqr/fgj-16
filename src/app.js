@@ -49,7 +49,6 @@ function mainLoop (timestamp, props, state) {
 
   // Throttle the frame rate.
   if (timestamp < lastFrameTimeMS + (1000 / MAX_FPS)) {
-    console.log('lol jotain')
     requestAnimationFrame(ts => mainLoop(ts, props, state))
     return
   }
