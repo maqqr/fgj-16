@@ -6,17 +6,18 @@ import {
   PLAYER_LEFT,
   PLAYER_UPDATED_POS
 } from './networkEventTypes'
+import * as handlers from './sharedEventHandlers'
 
 export function onNetworkEvent (event, data) {
   switch (event) {
     case INIT_PLAYER:
       return state => onInitPlayer(state, data)
     case PLAYER_JOINED:
-      return state => onPlayerJoined(state, data)
+      return state => handlers.onPlayerJoined(state, data)
     case PLAYER_LEFT:
-      return state => onPlayerLeft(state, data)
+      return state => handlers.onPlayerLeft(state, data)
     case PLAYER_UPDATED_POS:
-      return state => onPlayerUpdatedPos(state, data)
+      return state => handlers.onPlayerUpdatedPos(state, data)
     default:
       return state => state
   }
@@ -25,28 +26,6 @@ export function onNetworkEvent (event, data) {
 function onInitPlayer (state, data) {
   console.log('player init', data)
   return { ...state, ...data }
-}
-
-function onPlayerJoined (state, data) {
-  console.log('player joined', data)
-  return { ...state, actors: state.actors.concat(data) }
-}
-
-function onPlayerLeft (state, data) {
-  return { ...state, actors: state.actors.filter(d => d.id !== data.id) }
-}
-
-function onPlayerUpdatedPos (state, data) {
-  return {
-    ...state,
-    actors: state.actors.map(d => {
-      if (d.id === data.id) {
-        return { ...d, ...data }
-      }
-
-      return d
-    })
-  }
 }
 
 export function sendPlayerStateToServer (io, state) {
