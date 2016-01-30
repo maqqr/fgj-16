@@ -10,10 +10,6 @@ var express = require('express')
 app.use(express.static(__dirname));
 
 var currentState = new State();
-var pl = new Player(2);
-pl.setPosition(100,100);
-stateFunctions.addPlayer(currentState, pl);
-currentState.runningId = 5;
 
 //we'll keep clients data here
 var clients = {};
@@ -41,7 +37,12 @@ eurecaServer.onConnect(function (conn) {
     clients[conn.id] = {id:conn.id, remote:remote}
     
     //here we call setId (defined in the client side)
-    remote.setId(conn.id);
+    var pl = new Player(2);
+    pl.setPosition(100,100);
+    stateFunctions.addPlayer(currentState, pl);
+    currentState.runningId = conn.id;
+    
+    remote.setId(pl);
 	//remote.updateState(currentState);
 });
 
