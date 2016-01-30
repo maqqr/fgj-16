@@ -70,7 +70,7 @@ function GameClient(){
 	this.connectToServer = function(){
 		var con = this;
 		this.eurecaClient = new Eureca.Client();
-		this.eurecaClient.exports.setId = con.setId;
+		this.eurecaClient.exports.setId = function(player){ con.setId(player);};
 		//this.eurecaClient.exports.updateState = function(state){
 		//	con.updateState(state);
 		//};
@@ -80,6 +80,11 @@ function GameClient(){
 		this.pingTime;      
 		this.eurecaClient.ready(this.clientConnected);
 	}
+	
+	this.clientConnected = function(){
+		
+	}
+	
 	
 	this.notifyMovement = function(id, x, y){
 		this.server.onPlayerMove(id, x, y);
