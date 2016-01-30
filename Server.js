@@ -4,7 +4,17 @@ var express = require('express')
   , State = require('./src/State')
   , stateFunctions = require('./src/StateFunctions')
   , Player = require('./src/Player');
+
+var updateTime = 20;
   
+setInterval(function(){
+    for (var c in clients)
+    {
+        var remote = clients[c].remote;
+        remote.updateUI(currentState);
+    }   
+
+}, updateTime);
 
 // serve static files from the current directory
 app.use(express.static(__dirname));
@@ -66,13 +76,10 @@ eurecaServer.onDisconnect(function (conn) {
 });
 
 eurecaServer.exports.onPlayerMove = function(id, x, y){
-    
     stateFunctions.movePlayer(currentState, id, x, y);
-    console.log('Client moved id=%s and location: %s,%s', id, currentState.players[id].x, currentState.players[id].y);
-    console.log(JSON.stringify(currentState.players));
-    currentState.runningId = 5;
-    clients[id].remote.updateUI(currentState);
 }
+
+
 
 
 eurecaServer.exports.getState = function(){
