@@ -19,9 +19,9 @@ import * as handlers from '../src/sharedEventHandlers'
 import { hasPlayers } from '../src/stateSelectors'
 
 const app = http.createServer(handler)
-app.listen(3001)
+app.listen(31337)
 const io = socketIO(app)
-console.log('Listening on port 3001...')
+console.log('Listening on port 31337...')
 
 function handler (req, res) {
   res.writeHead(200)
