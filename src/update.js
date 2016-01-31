@@ -10,7 +10,15 @@ export default (delta, state) => {
   state = updateActors(delta, state)
   state = updateResources(delta, state)
   state = updateMenu(delta, state)
+  state = updateMessageTimer(delta, state)
   return state // TODO
+}
+
+function updateMessageTimer (delta, state) {
+  return {
+    ...state,
+    messageTimer: Math.max(0, state.messageTimer - 0.001 * delta)
+  }
 }
 
 function updateMenu (delta, state) {
@@ -70,5 +78,9 @@ function updateResources (delta, state) {
 
 function updateResource (delta, state, resource) {
   const p = getPlayer(state)
-  return collides(p, resource) ? { ...resource, collidesWith: p.id } : resource
+  let resCount = 0
+  for (var r in p.resources) {
+    resCount++;
+  }
+  return collides(p, resource) && resCount == 0 ? { ...resource, collidesWith: p.id } : resource
 }

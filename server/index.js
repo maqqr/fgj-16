@@ -12,7 +12,8 @@ import {
   RESOURCE_PICKED,
   RESOURCE_ADDED,
   RESOURCE_STORED,
-  TIMER_UPDATED
+  TIMER_UPDATED,
+  SERVER_MESSAGE
 } from '../src/networkEventTypes'
 import * as handlers from '../src/sharedEventHandlers'
 import { hasPlayers } from '../src/stateSelectors'
@@ -38,7 +39,7 @@ let state = {
 
 resourceTypes.forEach(function (t) {
   state.neededResources[t + "c"] = 0 // current
-  state.neededResources[t + "n"] = 5 // needed
+  state.neededResources[t + "n"] = 2 // needed
 })
 
 function resetResources() {
@@ -68,6 +69,7 @@ function newDay () {
 
   if (fail) {
     gameOver()
+    io.sockets.emit(SERVER_MESSAGE, "Ritual failed. Game Over.")
   }
   else {
     resourceTypes.forEach(function (t) {
@@ -75,6 +77,7 @@ function newDay () {
       state.neededResources[t + "n"] += 1
     })
     io.sockets.emit(INIT_PLAYER, state)
+    io.sockets.emit(SERVER_MESSAGE, "Ritual completed.")
   }
 }
 

@@ -35,5 +35,7 @@ export default {
     left: false
   },
   menufade: 3.0,
-  timeofday: 0.0
+  timeofday: 0.0,
+  messageTimer: 4.0,
+  message: "Hello World"
 }

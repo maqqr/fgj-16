@@ -8,7 +8,8 @@ import {
   RESOURCE_PICKED,
   RESOURCE_ADDED,
   RESOURCE_STORED,
-  TIMER_UPDATED
+  TIMER_UPDATED,
+  SERVER_MESSAGE
 } from './networkEventTypes'
 import {
   STORE_X,
@@ -37,9 +38,15 @@ export function onNetworkEvent (event, data) {
       return state => handlers.onResourceStored(state, data)
     case TIMER_UPDATED:
       return state => onTimerUpdated(state, data)
+    case SERVER_MESSAGE:
+      return state => onServerMessage(state, data)
     default:
       return state => state
   }
+}
+
+function onServerMessage (state, data) {
+  return { ...state, messageTimer: 3.0, message: data }
 }
 
 function onTimerUpdated (state, data) {

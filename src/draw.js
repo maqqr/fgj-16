@@ -23,6 +23,14 @@ function drawGame (interp, state, cx, res, offset) {
 function drawGUI (interp, state, cx, res) {
   drawGameScore(interp, state, cx, res)
   drawClock(interp, state, cx, res)
+
+  if (state.messageTimer > 0)
+  {
+    cx.font="30px Arial";
+    cx.fillStyle = 'black'
+    cx.fillText(state.message, 200, 50)
+    cx.font="12px Arial";
+  }
 }
 
 function clear (interp, cx, color) {
