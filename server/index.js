@@ -51,7 +51,7 @@ function resetResources() {
 function gameOver() {
   resourceTypes.forEach(function (t) {
     state.neededResources[t + "c"] = 0 // current
-    state.neededResources[t + "n"] = 5 // needed
+    state.neededResources[t + "n"] = 2 // needed
   });
   state.timeofday = 0.0
   state.resources = {}
@@ -93,7 +93,7 @@ setInterval(() => {
 
 // Day/night cycle.
 setInterval(function () {
-  state.timeofday += 0.0025
+  state.timeofday += 0.001
   if (state.timeofday > 1.0) {
     state.timeofday -= 1.0
     newDay()

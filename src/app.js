@@ -27,7 +27,7 @@ let CANVAS_CONTEXT
   window.addEventListener(d, e => EVENTS.push(onKey(d, e)), false)
 })
 
-const io = socketIO('http://localhost:3001')
+const io = socketIO('http://localhost:31337')
 
 _.keys(networkEventTypes).forEach(d => {
   io.on(d, data => EVENTS.push(onNetworkEvent(d, data)))

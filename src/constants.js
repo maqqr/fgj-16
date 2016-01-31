@@ -9,8 +9,8 @@ export const DEFAULT_LOOP_PROPS = {
 export const MAX_FPS = 60
 export const TIME_STEP = 1000 / 60
 
-export const SCREEN_W = 600
-export const SCREEN_H = 350
+export const SCREEN_W = 800
+export const SCREEN_H = 600
 
 export const WORLD_W = 5000
 export const WORLD_H = 5000

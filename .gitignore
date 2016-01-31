@@ -5,3 +5,4 @@ dist
 *.blend1
 build.bat
 server.bat
+gameserver.bat

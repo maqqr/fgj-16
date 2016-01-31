@@ -8,7 +8,7 @@ export default (interp, state, cx, res, offset) => {
   drawGame(interp, state, cx, res, offset)
   drawGUI(interp, state, cx, res)
 
-  //drawLogo(interp, state, cx, res)
+  drawLogo(interp, state, cx, res)
 }
 
 function drawGame (interp, state, cx, res, offset) {

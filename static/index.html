@@ -8,9 +8,25 @@
     <title>Volcanico - FGJ2016 game</title>
 
     <meta name="mobile-web-app-capable" content="yes">
+    <style type="text/css">
+    body {
+      background-color: black;
+    }
+
+    p {
+      font-size: 80%;
+      color: white;
+    }
+
+    h1 {
+      color: white;
+    }
+    </style>
   </head>
   <body>
-    <canvas id="canvas" width="600" height="350" style="border: 1px solid black;"></canvas>
+    <h1>Volcanico</h1>
+    <canvas id="canvas" width="800" height="600" style="border: 1px solid black;"></canvas>
+    <p><a href="https://github.com/maqqr/fgj-16">Github repository</a></p>
     <p>Music made by <a href="https://freesound.org/people/LittleRobotSoundFactory">LittleRobotSoundFactory</a></p>
     <script src="./dist/app.js"> </script>
     <script src="./js/SeamlessLoop.js"></script>
@@ -21,6 +37,7 @@
       loop.callback(function () {
         console.log("Music loaded.");
         loop.start("sound1");
+        loop.volume(0.5);
       });
     </script>
   </body>
