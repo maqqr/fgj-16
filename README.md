@@ -1,4 +1,4 @@
-# fgj-16
+# Volcanico
 Finnish Game Jam 2016 game
 
 http://globalgamejam.org/2016/games/volcanico
