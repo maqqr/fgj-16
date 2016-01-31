@@ -3,7 +3,7 @@ import { WORLD_W, WORLD_H } from './constants'
 export function makeResource (props) {
   let r = Math.random()
   let res = {
-    id: Math.floor(Math.random() * 10000), // fingers crossed
+    id: 0, //Math.floor(Math.random() * 10000), // fingers crossed
     type: 'resource',
     name: 'banana',
     texture: 'banana',

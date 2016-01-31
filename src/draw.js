@@ -41,7 +41,7 @@ function drawActors (interp, { actors }, cx, res) {
       let hasResource = false
       for (var restype in d.resources) {
         hasResource = true
-        cx.drawImage(res[restype], d.x, d.y - 30, 30, 30)
+        cx.drawImage(res[restype], d.x, d.y - 27, 30, 30)
       }
       if (hasResource) {
         cx.drawImage(res.playercarry, d.x, d.y, d.width, d.height)

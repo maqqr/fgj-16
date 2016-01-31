@@ -39,11 +39,42 @@ let state = {
 resourceTypes.forEach(function (t) {
   state.neededResources[t + "c"] = 0 // current
   state.neededResources[t + "n"] = 5 // needed
-});
+})
 
 function resetResources() {
   for (var k in resourceTypes) {
     state.neededResources[k + "c"] = 0
+  }
+}
+
+function gameOver() {
+  resourceTypes.forEach(function (t) {
+    state.neededResources[t + "c"] = 0 // current
+    state.neededResources[t + "n"] = 5 // needed
+  });
+  state.timeofday = 0.0
+  state.resources = {}
+  state.actors = state.actors.filter(d => d.type !== 'resource')
+  io.sockets.emit(INIT_PLAYER, state)
+}
+
+function newDay () {
+  let fail = false
+  resourceTypes.forEach(function (t) {
+    if (state.neededResources[t + "c"] < state.neededResources[t + "n"]) {
+      fail = true
+    }
+  })
+
+  if (fail) {
+    gameOver()
+  }
+  else {
+    resourceTypes.forEach(function (t) {
+      state.neededResources[t + "c"] = 0
+      state.neededResources[t + "n"] += 1
+    })
+    io.sockets.emit(INIT_PLAYER, state)
   }
 }
 
@@ -119,8 +150,4 @@ function onPlayerConnected (socket) {
   state = handlers.onPlayerJoined(state, player)
   socket.emit(INIT_PLAYER, { ...state, playerId: player.id })
   socket.broadcast.emit(PLAYER_JOINED, player)
-}
-
-function newDay () {
-  // TODO
 }
