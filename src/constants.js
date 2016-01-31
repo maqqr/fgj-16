@@ -16,3 +16,7 @@ export const WORLD_W = 5000
 export const WORLD_H = 5000
 
 export const PLAYER_V = 0.5
+
+export const STORE_X = 1600
+export const STORE_Y = 2150
+export const STORE_RADIUS_SQ = 60 * 60

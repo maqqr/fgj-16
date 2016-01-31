@@ -46,3 +46,14 @@ export function onResourcePicked (state, data) {
 
   return { ...state, actors }
 }
+
+export function onResourceStored (state, data) {
+  console.log('resource stored', data)
+  state.neededResources[data.type + "c"] += 1
+  console.log('needed', state.neededResources)
+
+  const actorIndex = _.findIndex(state.actors, a => a.id === data.id)
+  state.actors[actorIndex].resources = {}
+
+  return state
+}

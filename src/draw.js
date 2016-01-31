@@ -50,9 +50,14 @@ function drawActors (interp, { actors }, cx, res) {
   })
 }
 
-function drawGameScore (interp, { resources }, cx, res) {
+function drawGameScore (interp, { neededResources }, cx, res) {
   cx.fillStyle = 'black';
-  cx.fillText(JSON.stringify(resources), 10, 10)
+  //cx.fillText(JSON.stringify(resources), 10, 10)
+  const resourceTypes = ["banana", "wood", "rock"]
+  for (var i = resourceTypes.length - 1; i >= 0; i--) {
+    let name = resourceTypes[i]
+    cx.fillText(name + ": " + neededResources[name+"c"] + " / " + neededResources[name+"n"], 10, 30 + 20 * i)
+  }
 }
 
 function drawClock (interp, { timeofday }, cx, res) {

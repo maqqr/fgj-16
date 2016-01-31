@@ -11,6 +11,7 @@ import {
   PLAYER_UPDATED_POS,
   RESOURCE_PICKED,
   RESOURCE_ADDED,
+  RESOURCE_STORED,
   TIMER_UPDATED
 } from '../src/networkEventTypes'
 import * as handlers from '../src/sharedEventHandlers'
@@ -26,10 +27,24 @@ function handler (req, res) {
   return res.end('moro')
 }
 
+const resourceTypes = ["banana", "wood", "rock"]
+
 let state = {
   actors: [],
   resources: {},
+  neededResources: {},
   timeofday: 0.0
+}
+
+resourceTypes.forEach(function (t) {
+  state.neededResources[t + "c"] = 0 // current
+  state.neededResources[t + "n"] = 5 // needed
+});
+
+function resetResources() {
+  for (var k in resourceTypes) {
+    state.neededResources[k + "c"] = 0
+  }
 }
 
 // Resource spawning timer.
@@ -66,13 +81,21 @@ io.on('connection', function (socket) {
     state = handlers.onResourcePicked(state, data)
   })
 
+  socket.on(RESOURCE_STORED, data => {
+    socket.broadcast.emit(RESOURCE_STORED, data)
+    state = handlers.onResourceStored(state, data)
+  })
+
   socket.on('disconnect', () => {
     const { id } = socket
     socket.broadcast.emit(PLAYER_LEFT, { id })
     state = handlers.onPlayerLeft(state, { id })
 
     // Restart state when the last player leaves
-    if (!hasPlayers(state)) state = { ...state, actors: [], resources: {} }
+    if (!hasPlayers(state)) {
+      state = { ...state, actors: [], resources: {}, timeofday: 0 }
+      resetResources()
+    }
   })
 })
 

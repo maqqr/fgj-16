@@ -1,6 +1,7 @@
 export default {
   playerId: 9999999,
   resources: {},
+  neededResources: {},
   actors: [
     {
       id: 9999999,
