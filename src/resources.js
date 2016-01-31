@@ -2,6 +2,7 @@
 const ASSET_PATH = "assets"
 const TEXTURES = {
     player: "player.png",
+    playercarry: "playercarry.png",
     background: "saari.jpeg",
     logo: "logo.png",
     clockborder: "clockborder.png",

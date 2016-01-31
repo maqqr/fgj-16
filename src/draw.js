@@ -36,16 +36,26 @@ function drawBackground (interp, state, cx, res) {
 
 function drawActors (interp, { actors }, cx, res) {
   actors.forEach(d => {
-    if (d.color !== undefined) {
+    if (d.type === 'player') {
+      //cx.fillText(JSON.stringify(d.resources), d.x, d.y)
+      let hasResource = false
+      for (var restype in d.resources) {
+        hasResource = true
+        cx.drawImage(res[restype], d.x, d.y - 30, 30, 30)
+      }
+      if (hasResource) {
+        cx.drawImage(res.playercarry, d.x, d.y, d.width, d.height)
+      }
+      else {
+        cx.drawImage(res.player, d.x, d.y, d.width, d.height)
+      }
+    }
+    else if (d.color !== undefined) {
       cx.fillStyle = d.color
       cx.fillRect(d.x, d.y, d.width, d.height)
     }
     else if (d.texture !== undefined) {
       cx.drawImage(res[d.texture], d.x, d.y, d.width, d.height)
-    }
-
-    if (d.type === 'player') {
-      cx.fillText(JSON.stringify(d.resources), d.x, d.y)
     }
   })
 }
