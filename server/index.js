@@ -32,6 +32,7 @@ let state = {
   timeofday: 0.0
 }
 
+// Resource spawning timer.
 setInterval(() => {
   if (hasPlayers(state)) {
     const id = _.get(_.last(state.actors.filter(d => d.type === 'resource')), 'id', 9999) + 1
@@ -40,6 +41,17 @@ setInterval(() => {
     state = handlers.onResourceAdded(state, newResource)
   }
 }, 2000)
+
+// Day/night cycle.
+setInterval(function () {
+  state.timeofday += 0.0025
+  if (state.timeofday > 1.0) {
+    state.timeofday -= 1.0
+    newDay()
+  }
+  io.sockets.emit(TIMER_UPDATED, { timeofday: state.timeofday })
+}, 50)
+
 
 io.on('connection', function (socket) {
   onPlayerConnected(socket)
@@ -86,7 +98,6 @@ function onPlayerConnected (socket) {
   socket.broadcast.emit(PLAYER_JOINED, player)
 }
 
-setInterval(function () {
-  state.timeofday += 0.1
-  io.sockets.emit(TIMER_UPDATED, { timeofday: state.timeofday })
-}, 1000)
+function newDay () {
+  // TODO
+}

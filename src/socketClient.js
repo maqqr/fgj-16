@@ -12,7 +12,7 @@ import {
 import * as handlers from './sharedEventHandlers'
 
 export function onNetworkEvent (event, data) {
-  console.log('received event', event);
+  //console.log('received event', event);
   switch (event) {
     case INIT_PLAYER:
       return state => onInitPlayer(state, data)
@@ -34,7 +34,6 @@ export function onNetworkEvent (event, data) {
 }
 
 function onTimerUpdated (state, data) {
-  console.log('new time' + data.timeofday)
   return { ...state, timeofday: data.timeofday }
 }
 

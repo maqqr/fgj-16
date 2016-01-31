@@ -5,7 +5,10 @@ const TEXTURES = {
     background: "saari.jpeg",
     logo: "logo.png",
     clockborder: "clockborder.png",
-    clock: "clock.png"
+    clock: "clock.png",
+    banana: "bananas.png",
+    rock: "rock.png",
+    wood: "wood.png"
 }
 
 export default (callback) => {

@@ -12,8 +12,15 @@
   <body>
     <canvas id="canvas" width="600" height="350" style="border: 1px solid black;"></canvas>
     <script src="./dist/app.js"> </script>
+    <script src="./js/SeamlessLoop.js"></script>
     <script>
       window.onload = app;
+      var loop = new SeamlessLoop();
+      loop.addUri("assets/drums.ogg", 12*1000, "sound1");
+      loop.callback(function () {
+        console.log("Music loaded.");
+        loop.start("sound1");
+      });
     </script>
   </body>
 </html>

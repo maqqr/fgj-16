@@ -17,6 +17,7 @@ function drawGame (interp, state, cx, res, offset) {
   drawBackground(interp, state, cx, res)
   drawActors(interp, state, cx, res)
   cx.restore()
+  drawNight(interp, state, cx, res)
 }
 
 function drawGUI (interp, state, cx, res) {
@@ -40,7 +41,7 @@ function drawActors (interp, { actors }, cx, res) {
       cx.fillRect(d.x, d.y, d.width, d.height)
     }
     else if (d.texture !== undefined) {
-      cx.drawImage(res.player, d.x, d.y, d.width, d.height)
+      cx.drawImage(res[d.texture], d.x, d.y, d.width, d.height)
     }
 
     if (d.type === 'player') {
@@ -76,6 +77,26 @@ function drawLogo (interp, { menufade }, cx, res) {
     cx.globalAlpha = 1.0 - Math.abs(1.5 - menufade) / 1.5
     cx.drawImage(res.logo, 0, 0, SCREEN_W, SCREEN_H)
 
+    cx.globalAlpha = 1.0
+  }
+}
+
+function drawNight (interp, { timeofday }, cx, res) {
+  const maxDarkness = 0.5
+  if (timeofday > 0.4) {
+    // Fade to darkness.
+    cx.globalAlpha = 0.5 - maxDarkness * (0.5 - timeofday) / 0.1
+    if (timeofday > 0.5) {
+      cx.globalAlpha = 1.0 - maxDarkness
+    }
+
+    // Fade to lightness.
+    if (timeofday > 0.9) {
+      cx.globalAlpha = 0.5 - 0.5 * (timeofday - 0.9) / 0.1
+    }
+
+    cx.fillStyle = 'black'
+    cx.fillRect(0, 0, SCREEN_W, SCREEN_H)
     cx.globalAlpha = 1.0
   }
 }
