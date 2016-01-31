@@ -1,6 +1,8 @@
 # fgj-16
 Finnish Game Jam 2016 game
 
+http://globalgamejam.org/2016/games/volcanico
+
 ## Run:
 
 1. Install node & npm
